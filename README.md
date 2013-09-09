@@ -68,6 +68,6 @@ Training and Classification as above.
 
 ------------------------------------------------------------------------
 
-pickled_classifiers directory is full of pickled ([list of names], 'ethnicity') pairs
+pickled_names directory is full of pickled ([list of names], 'ethnicity') pairs
 
 pickled_classifiers is full of pickled trained classifiers

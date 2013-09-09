@@ -1,5 +1,7 @@
 import io, os, sys
 from nltk.classify.maxent import MaxentClassifier as mxc
+from sets import Set
+import cPickle as pickle
 
 class NLTKMaxentEthnicityClassifier(object):
 
@@ -26,7 +28,7 @@ class NLTKMaxentEthnicityClassifier(object):
 			features['has_punct'] = True
 		else:
 			features['has_punct'] = False
-			
+
 		for i in range(1,4):
 			if len(name) >= i:
 				self.add_prefix_suffix(name, i, features)
@@ -53,23 +55,58 @@ class NLTKMaxentEthnicityClassifier(object):
 		return toks
 
 
+	def labels(self):
+		return self.classifier.labels()
+
+	def set_weights(self, new_weights):
+		self.classifier.set_weights(new_weights)
+
+
+	def weights(self):
+		return self.classifier.weights()
+
 	def train(self):
 		self.classifier = mxc.train(self.tokens)
+
+
+	def explain(self, name, columns=4):
+		features = self.featureset(name)
+		self.classifier.explain(features, columns)
+
+
+	def show_most_informative_features(self, n=10, show='all'):
+		self.classifier.show_most_informative_features(n, show)
+
+	def prob_classify(self, name):
+		features = self.featureset(name)
+		output = self.classifier.prob_classify(features)
+		return output
 
 	def classify(self, name):
 		features = self.featureset(name)
 		output = self.classifier.classify(features)
 		return output
 
+	def ethnicities(self):
+		return self.ethnicities
+
+	def pickleme(self, pickle_directory):
+		ethnicity_string = ''
+		for ethnicity in self.ethnicities:
+			ethnicity_string += ethnicity + '_'
+		pickle_file = open(pickle_directory + '/' + ethnicity_string, 'wb')
+		pickle.dump(self, pickle_file)
+		pickle_file.close()
 
 
 
 #### TRAINING_LISTS MUST BE A LIST OF (LIST_OF_NAMES,STRING_ETHNICITY) PAIRS ###
 	def make_train_toks(self, training_lists):
+		self.ethnicities = Set()
 		all_toks = []
 		for ethnicity_list in training_lists:
 			all_toks += self.make_toks(ethnicity_list)
-
+			self.ethnicities.add(ethnicity_list[1])
 		return all_toks
 
 	def __init__(self, training_lists):
