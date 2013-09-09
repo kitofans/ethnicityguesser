@@ -1,6 +1,11 @@
 ethnicityguesser
 ================
 
+DEPENDENCIES:
+nltk
+
+------------------------------------------------------------------------
+
 DOCUMENTATION:
 
 Usage:
