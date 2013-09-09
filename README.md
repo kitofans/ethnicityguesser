@@ -6,6 +6,18 @@ nltk
 
 ------------------------------------------------------------------------
 
+CURRENT ETHNICITIES:
+chinese
+czech
+danish
+french
+indian
+japanese
+jewish
+spanish
+
+------------------------------------------------------------------------
+
 DOCUMENTATION:
 
 Usage:
@@ -19,7 +31,6 @@ Instantiation:
 >>> from runner import make_classifier
 >>> mxec = make_classifier()
 
-
 Training: (note that make_classifier already passes in training tokens)
 
 >>> mxec.train()
@@ -29,8 +40,6 @@ Classification: (After training)
 'jewish'
 >>> mxec.classify('sekhri')
 'indian'
-
-------------------------------------------------------------------------
 
 FROM PICKLE:
 
@@ -48,6 +57,14 @@ Classification:
 'jewish'
 >>> mxec.classify('sekhri')
 'indian'
+
+
+-- In other code (as in a bigger project, etc):
+
+from NLTKMaxentEthnicityClassifier import NLTKMaxentEthnicityClassifier as mxec
+classifier = mxec(tokens) ## tokens must be a list of ([list of names], 'ethnicity') pairs. Ethnicities can be repeated.
+
+Training and Classification as above.
 
 ------------------------------------------------------------------------
 

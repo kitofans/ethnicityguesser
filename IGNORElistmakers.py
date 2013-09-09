@@ -26,9 +26,9 @@ import re
 # print names
 
 
-
+## WORKS FOR: INDIAN, SPANISH, CHINESE, CZECH, DANISH, FRENCH, JAPANESE
 import time
-f = open("names_textfiles/indian.txt", 'r')
+f = open("names_textfiles/japanese.txt", 'r')
 names = []
 for orgline in f:
 	orgline = orgline.rstrip('\r')
@@ -43,9 +43,9 @@ for orgline in f:
 			match_index = match.start(0)
 			names.append(line[match_index:])
 
-to_pickle = (names, "indian")
+to_pickle = (names, "japanese")
 
-pickle_file = open("pickled_names/indian.pkl", 'wb')
+pickle_file = open("pickled_names/japanese.pkl", 'wb')
 pickle.dump(to_pickle, pickle_file)
 pickle_file.close()
 

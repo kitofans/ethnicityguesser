@@ -9,21 +9,13 @@ def unpickle(string):
 	
 def make_classifier():
 	all_toks = []
-	indian_toks = unpickle('pickled_names/indian.pkl')
-	jewish_toks = unpickle('pickled_names/jewish.pkl')
-	all_toks.append(indian_toks)
-	all_toks.append(jewish_toks)
+	for pickle_file in os.listdir("pickled_names"):
+		all_toks.append(unpickle('pickled_names/' + pickle_file))
 	classifier = mxec(all_toks)
 	return classifier
 
 def main():
-	all_toks = []
-	indian_toks = unpickle('pickled_names/indian.pkl')
-	jewish_toks = unpickle('pickled_names/jewish.pkl')
-	all_toks.append(indian_toks)
-	all_toks.append(jewish_toks)
-	classifier = mxec(all_toks)
-	classifier.train()
+	make_classifier()##
 
 if __name__ == "__main__":
 	main()

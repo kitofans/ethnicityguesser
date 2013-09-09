@@ -22,6 +22,11 @@ class NLTKMaxentEthnicityClassifier(object):
 	def featureset(self, orig_name):
 		name = orig_name.lower()
 		features = {}
+		if '.' in orig_name:
+			features['has_punct'] = True
+		else:
+			features['has_punct'] = False
+			
 		for i in range(1,4):
 			if len(name) >= i:
 				self.add_prefix_suffix(name, i, features)
