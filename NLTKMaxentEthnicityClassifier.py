@@ -29,7 +29,7 @@ class NLTKMaxentEthnicityClassifier(object):
 		else:
 			features['has_punct'] = False
 
-		for i in range(1,4):
+		for i in range(1,5):
 			if len(name) >= i:
 				self.add_prefix_suffix(name, i, features)
 		
@@ -43,9 +43,17 @@ class NLTKMaxentEthnicityClassifier(object):
 		features['nameis'] = name
 		return features
 
+
+
+	def make_list(self, item):
+		if type(item) is list:
+			return item
+		else:
+			return list(item)
+
 	def make_toks(self, ethnicity_list):
 		toks = []
-		names = ethnicity_list[0]
+		names = self.make_list(ethnicity_list[0])
 		ethnicity = ethnicity_list[1]
 
 
@@ -66,7 +74,8 @@ class NLTKMaxentEthnicityClassifier(object):
 		return self.classifier.weights()
 
 	def train(self):
-		self.classifier = mxc.train(self.tokens)
+		tokens = self.make_train_toks(self.training_lists)
+		self.classifier = mxc.train(tokens)
 
 
 	def explain(self, name, columns=4):
@@ -99,6 +108,45 @@ class NLTKMaxentEthnicityClassifier(object):
 		pickle_file.close()
 
 
+	def split_list_crossvalidation(self, list_ethnicity_to_split):
+		list_to_split = list_ethnicity_to_split[0]
+		ethnicity = list_ethnicity_to_split[1]
+		from random import shuffle
+		shuffle(list_to_split)
+		cutoff_index = int(.9*len(list_to_split))
+		train = list_to_split[:cutoff_index]
+		holdout = list_to_split[cutoff_index:]
+		return (train,ethnicity), (holdout,ethnicity)
+
+
+	def evaluate_success(self, held_lists):
+		total = 0
+		correct = 0
+		wrong = Set()
+		for eth_list in held_lists:
+			for name in eth_list[0]:
+				total += 1
+				label = self.classify(name)
+				if label == eth_list[1]:
+					correct += 1
+				else:
+					wrong.add((name, label, eth_list[1]))
+
+		print "CORRECT: %d OF %d." % (correct, total)
+		print "WRONGS:"
+		print wrong
+
+	def cross_validate(self):
+		all_train_list = []
+		all_held_list = []
+		for ethnicity_list in self.training_lists:
+			train_list, held_list = self.split_list_crossvalidation(ethnicity_list)
+			all_train_list.append(train_list)
+			all_held_list.append(held_list)
+
+		toks = self.make_train_toks(all_train_list)
+		self.classifier = mxc.train(toks)
+		self.evaluate_success(all_held_list)
 
 #### TRAINING_LISTS MUST BE A LIST OF (LIST_OF_NAMES,STRING_ETHNICITY) PAIRS ###
 	def make_train_toks(self, training_lists):
@@ -110,4 +158,5 @@ class NLTKMaxentEthnicityClassifier(object):
 		return all_toks
 
 	def __init__(self, training_lists):
-		self.tokens = self.make_train_toks(training_lists)
+		self.training_lists = training_lists
+		# self.tokens = self.make_train_toks(training_lists)
