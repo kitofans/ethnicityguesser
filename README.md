@@ -88,9 +88,8 @@ Training and Classification as above.
 
 Pickling:
 
-'''
->>> mxec.pickleme(directory_name)
-'''
+\>\>\> mxec.pickleme(directory_name)
+
 ------------------------------------------------------------------------
 
 pickled_names directory is full of pickled ([list of names], 'ethnicity') pairs
