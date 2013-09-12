@@ -37,7 +37,7 @@ FROM SCRATCH:
 Instantiation:
 
 '''
->>> from runner import make_classifier
+\>\>\> from runner import make_classifier
 >>> mxec = make_classifier()
 '''
 
