@@ -55,7 +55,7 @@ import re
 
 
 
-f = open("names_textfiles/irish.txt", 'r')
+f = open("names_textfiles/german.txt", 'r')
 names = []
 for line in f:
 	# print line
@@ -67,7 +67,7 @@ for line in f:
 			names.append(splits[0].title())
 
 print names
-to_pickle = (names, 'irish')
-pickle_file = open("pickled_names/irish.pkl", 'wb')
+to_pickle = (names, 'german')
+pickle_file = open("pickled_names/german.pkl", 'wb')
 pickle.dump(to_pickle, pickle_file)
 pickle_file.close()
