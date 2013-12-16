@@ -17,7 +17,9 @@ def make_classifier():
 	return classifier
 
 def main():
-	classifier = unpickle('../ethnicityguesser/pickled_classifiers/danish_irish_chinese_czech_japanese_french_jewish_indian_spanish_italian_.pkl')
+	classifier = make_classifier()
+	# classifier = unpickle('../ethnicityguesser/pickled_classifiers/danish_irish_chinese_czech_japanese_french_jewish_indian_spanish_italian_.pkl')
+	print classifier
 	while(True):
 		name = raw_input("Enter a name (enter to quit) -->: ")
 		if name == "":

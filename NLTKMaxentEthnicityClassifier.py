@@ -75,7 +75,7 @@ class NLTKMaxentEthnicityClassifier(object):
 
 	def train(self):
 		tokens = self.make_train_toks(self.training_lists)
-		self.classifier = mxc.train(tokens)
+		self.classifier = mxc.train(tokens,algorithm="iis")
 
 
 	def explain(self, name, columns=4):

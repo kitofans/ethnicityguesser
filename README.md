@@ -10,6 +10,7 @@ nltk
 ------------------------------------------------------------------------
 
 CURRENT ETHNICITIES:
+african
 chinese
 czech
 danish
